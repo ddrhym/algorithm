@@ -1,0 +1,4 @@
+.lcpr_data/*
+*.out
+*/cache
+*.json
