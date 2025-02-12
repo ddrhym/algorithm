@@ -39,5 +39,61 @@ class MyChainingHashMap {
             initCapacity = std::max(initCapacity, 1);
             table.resize(initCapacity);
         }
-        
+
+        void put(K key, V val) {
+            auto& list = table[hash(key)];
+
+            // 如果key之前已经存在，则修改对应的val
+            for (auto& node: list) {
+                if (node.key == key) {
+                    node.value = val;
+                    return;
+                }
+            }
+            list.emplace_back(key, val);
+            size += 1;
+            if (size >= table.size() * 0.75) {
+                resize(table.size() * 2);
+            }
+        }
+
+        void remove(K key) {
+            auto& list = table[hash(key)];
+            for (auto it = list.begin(); it != list.end(); it++) {
+                if (it->key == key) {
+                    list.erase(it);
+                    size -= 1;
+
+                    if (size <= table.size() / 8) {
+                        resize(table.size() / 4);
+                    }
+                    return;
+                }
+            }
+        }
+
+        V get(K key) {
+            const auto& list = table[hash(key)];
+            for (const auto& node: list) {
+                if (node.key == key) {
+                    return node.value;
+                }
+            }
+            return nullptr;
+        }
+
+        // 返回所有key
+        std::list<K> keys() {
+            std::list<K> keys;
+            for (const auto& list: table) {
+                for (const auto& node: list) {
+                    keys.push_back(node.key);
+                }
+            }
+            return keys;
+        }
+
+        int size() const {
+            return size;
+        }
 };
