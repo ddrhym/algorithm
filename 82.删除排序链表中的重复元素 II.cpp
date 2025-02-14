@@ -1,8 +1,8 @@
 /*
- * @lc app=leetcode.cn id=19 lang=cpp
+ * @lc app=leetcode.cn id=82 lang=cpp
  * @lcpr version=30005
  *
- * [19] 删除链表的倒数第 N 个结点
+ * [82] 删除排序链表中的重复元素 II
  */
 
 
@@ -37,29 +37,18 @@ using namespace std;
  */
 class Solution {
 public:
-    // 删除倒数第n个节点
-    ListNode* removeNthFromEnd(ListNode* head, int n) {
-        ListNode *dummy = new ListNode(-1);
-        dummy->next = head;
+    ListNode* deleteDuplicates(ListNode* head) {
+        ListNode *fast = head->next;
+        ListNode *slow = head;
+        int past_val = -101;
 
-        // 找到倒数第n+1个节点
-        ListNode *prev = findFromEnd(dummy, n + 1);
-        prev->next = prev->next->next;
-        return dummy->next;
-    }
-
-    ListNode *findFromEnd(ListNode *head, int k) {
-        ListNode *p1 = head;
-        for (int i = 0; i < k; i++) {
-            p1 = p1->next;
+        while (fast->val == slow->val) {
+            past_val = slow->val;
+            fast = fast->next;
         }
 
-        ListNode *p2 = head;
-        while (p1 != nullptr) {
-            p2 = p2->next;
-            p1 = p1->next;
-        }
-        return p2;
+        head = fast;
+        
     }
 };
 // @lc code=end
@@ -68,15 +57,11 @@ public:
 
 /*
 // @lcpr case=start
-// [1,2,3,4,5]\n2\n
+// [1,2,3,3,4,4,5]\n
 // @lcpr case=end
 
 // @lcpr case=start
-// [1]\n1\n
-// @lcpr case=end
-
-// @lcpr case=start
-// [1,2]\n1\n
+// [1,1,1,2,3]\n
 // @lcpr case=end
 
  */
