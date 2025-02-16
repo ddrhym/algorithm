@@ -1,8 +1,8 @@
 /*
- * @lc app=leetcode.cn id=82 lang=cpp
+ * @lc app=leetcode.cn id=83 lang=cpp
  * @lcpr version=30005
  *
- * [82] 删除排序链表中的重复元素 II
+ * [83] 删除排序链表中的重复元素
  */
 
 
@@ -38,17 +38,22 @@ using namespace std;
 class Solution {
 public:
     ListNode* deleteDuplicates(ListNode* head) {
-        ListNode *fast = head->next;
-        ListNode *slow = head;
-        int past_val = -101;
-
-        while (fast->val == slow->val) {
-            past_val = slow->val;
-            fast = fast->next;
+        if (head == nullptr) {
+            return nullptr;
         }
 
-        head = fast;
-        
+        ListNode *slow = head;
+        ListNode *fast = head;
+
+        while (fast != nullptr) {
+            if (fast->val != slow->val) {
+                slow->next = fast;
+                slow = slow->next;
+            }
+            fast = fast->next;
+        }
+        slow->next = nullptr;
+        return head;
     }
 };
 // @lc code=end
@@ -57,11 +62,11 @@ public:
 
 /*
 // @lcpr case=start
-// [1,2,3,3,4,4,5]\n
+// [1,1,2]\n
 // @lcpr case=end
 
 // @lcpr case=start
-// [1,1,1,2,3]\n
+// [1,1,2,3,3]\n
 // @lcpr case=end
 
  */
