@@ -28,7 +28,22 @@ using namespace std;
 class Solution {
 public:
     string longestPalindrome(string s) {
-        1
+        std::string res = "";
+        for (int i = 0; i < s.length(); i++) {
+            std::string s1 = findPalindrome(s, i, i);
+            std::string s2 = findPalindrome(s, i, i + 1);
+            res = res.length() < s1.length() ? s1 : res;
+            res = res.length() < s2.length() ? s2 : res;
+        }
+        return res;
+    }
+
+    std::string findPalindrome(std::string s, int l, int r) {
+        while (l >= 0 && r < s.length() && s[l] == s[r]) {
+            l -= 1;
+            r += 1;
+        }
+        return s.substr(l + 1, r - l - 1);
     }
 };
 // @lc code=end
