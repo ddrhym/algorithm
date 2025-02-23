@@ -11,18 +11,22 @@ class MyPriorityQueue {
         int size;
         std::function<bool(const T&, const T&)> comparator;
 
+        // 父节点
         int parent(int node) {
             return (node - 1) / 2;
         }
 
+        // 左子节点
         int left(int node) {
             return node * 2 + 1;
         }
 
+        // 右子节点
         int right(int node) {
             return node * 2 + 2;
         }
 
+        // 交换
         void swap(int i, int j) {
             std::swap(heap[i], heap[j]);
         }
@@ -36,7 +40,7 @@ class MyPriorityQueue {
         // 上浮操作, 时间复杂度是树高 O(logN)
         void swim(int node) {
             while (node > 0 && comparator(heap[parent(node)], heap[node])) {
-                swap(parent(node), node);
+                swap(node, parent(node));
                 node = parent(node);
             }
         }
@@ -53,7 +57,7 @@ class MyPriorityQueue {
                 if (min == node) {
                     break;
                 }
-                swap(node, min);
+                swap(min, node);
                 node = min;
             }
         }
