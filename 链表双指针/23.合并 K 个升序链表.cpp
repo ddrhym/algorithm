@@ -38,31 +38,29 @@ using namespace std;
 class Solution {
 public:
     ListNode* mergeKLists(vector<ListNode*>& lists) {
-        if (lists.empty()) {
-            return NULL;
-        }
-        ListNode *dummy = new ListNode(-1);
+        ListNode *dummy = new ListNode();
         ListNode *cur = dummy;
 
-        // 创建优先级队列
         auto cmp = [](ListNode *p1, ListNode *p2) {return p1->val > p2->val;};
-        std::priority_queue<ListNode*, vector<ListNode*>, decltype(cmp)> pq(cmp);
+        std::priority_queue<ListNode*, vector<ListNode *>, decltype(cmp)>pq(cmp);
 
-        for (ListNode *node: lists) {
-            if (node != NULL) {
-                pq.push(node);
+        for (ListNode* p: lists) {
+            if (p != nullptr) {
+                pq.push(p);
             }
         }
 
         while (!pq.empty()) {
-            ListNode *node = pq.top();
+            ListNode *top = pq.top();
             pq.pop();
-            cur->next = node;
-            if (node->next != nullptr) {
-                pq.push(node->next);
+            if (top->next != nullptr) {
+                pq.push(top->next);
             }
+            cur->next = top;
+            top->next = nullptr;
             cur = cur->next;
         }
+
         return dummy->next;
     }
 };

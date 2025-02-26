@@ -1,8 +1,8 @@
 /*
- * @lc app=leetcode.cn id=26 lang=cpp
+ * @lc app=leetcode.cn id=283 lang=cpp
  * @lcpr version=30005
  *
- * [26] 删除有序数组中的重复项
+ * [283] 移动零
  */
 
 
@@ -27,19 +27,20 @@ using namespace std;
 // @lc code=start
 class Solution {
 public:
-    int removeDuplicates(vector<int>& nums) {
-        if (nums.size() == 0) {
-            return 0;
-        }
+    void moveZeroes(vector<int>& nums) {
         int slow = 0, fast = 0;
-        while (fast < nums.size()) {
-            if (nums[fast] != nums[slow]) {
-                slow += 1;
+        while (fast != nums.size()) {
+            if (nums[fast] != 0) {
                 nums[slow] = nums[fast];
+                slow += 1;
             }
             fast += 1;
         }
-        return slow + 1;
+
+        while (slow != nums.size()) {
+            nums[slow] = 0;
+            slow += 1;
+        }
     }
 };
 // @lc code=end
@@ -48,11 +49,11 @@ public:
 
 /*
 // @lcpr case=start
-// [1,1,2]\n
+// [0,1,0,3,12]\n
 // @lcpr case=end
 
 // @lcpr case=start
-// [0,0,1,1,1,2,2,3,3,4]\n
+// [0]\n
 // @lcpr case=end
 
  */

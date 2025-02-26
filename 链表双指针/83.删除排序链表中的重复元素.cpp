@@ -43,17 +43,18 @@ public:
         }
 
         ListNode *slow = head;
+        ListNode *cur = slow;
         ListNode *fast = head;
-
         while (fast != nullptr) {
-            if (fast->val != slow->val) {
-                slow->next = fast;
-                slow = slow->next;
+            if (cur->val != fast->val) {
+                cur->next = fast;
+                cur = cur->next;
             }
             fast = fast->next;
+            cur->next = nullptr;
         }
-        slow->next = nullptr;
-        return head;
+
+        return slow;
     }
 };
 // @lc code=end

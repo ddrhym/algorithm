@@ -1,8 +1,8 @@
 /*
- * @lc app=leetcode.cn id=21 lang=cpp
- * @lcpr version=30003
+ * @lc app=leetcode.cn id=86 lang=cpp
+ * @lcpr version=30006
  *
- * [21] 合并两个有序链表
+ * [86] 分隔链表
  */
 
 
@@ -37,28 +37,27 @@ using namespace std;
  */
 class Solution {
 public:
-    ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
-        ListNode dummy(-1);
-        ListNode *cur = &dummy;
-        ListNode *p1 = list1, *p2 = list2;
-        while (p1 != nullptr && p2 != nullptr) {
-            if (p1->val < p2->val) {
-                cur->next = p1;
-                p1 = p1->next;
-            } else {
-                cur->next = p2;
-                p2 = p2->next;
-            }
-            cur = cur->next;
-        }
+    ListNode* partition(ListNode* head, int x) {
+        ListNode smaller_dummy(-1);
+        ListNode not_smaller_dummy(-1);
+        ListNode *cur = head;
+        ListNode *smaller_cur = &smaller_dummy;
+        ListNode *larger_cur = &not_smaller_dummy;
 
-        if (p1 != nullptr) {
-            cur->next = p1;
+        while (cur != nullptr) {
+            if (cur->val < x) {
+                smaller_cur->next = cur;
+                smaller_cur = smaller_cur->next;
+            } else {
+                larger_cur->next = cur;
+                larger_cur = larger_cur->next;
+            }
+            ListNode *temp = cur->next;
+            cur->next = nullptr;
+            cur = temp;
         }
-        if (p2 != nullptr) {
-            cur->next = p2;
-        }
-        return dummy.next;
+        smaller_cur->next = not_smaller_dummy.next;
+        return smaller_dummy.next;
     }
 };
 // @lc code=end
@@ -67,15 +66,11 @@ public:
 
 /*
 // @lcpr case=start
-// [1,2,4]\n[1,3,4]\n
+// [1,4,3,2,5,2]\n3\n
 // @lcpr case=end
 
 // @lcpr case=start
-// []\n[]\n
-// @lcpr case=end
-
-// @lcpr case=start
-// []\n[0]\n
+// [2,1]\n2\n
 // @lcpr case=end
 
  */

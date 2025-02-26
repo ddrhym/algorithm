@@ -1,8 +1,8 @@
 /*
- * @lc app=leetcode.cn id=86 lang=cpp
- * @lcpr version=30005
+ * @lc app=leetcode.cn id=21 lang=cpp
+ * @lcpr version=30006
  *
- * [86] 分隔链表
+ * [21] 合并两个有序链表
  */
 
 
@@ -37,29 +37,30 @@ using namespace std;
  */
 class Solution {
 public:
-    ListNode* partition(ListNode* head, int x) {
-        ListNode *dummy1 = new ListNode(-1);
-        ListNode *dummy2 = new ListNode(-1);
-        ListNode *p1 = dummy1;
-        ListNode *p2 = dummy2;
-        ListNode *p = head;
+    ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
+        ListNode dummy(-1);
+        ListNode *p1 = list1;
+        ListNode *p2 = list2;
+        ListNode *current = &dummy;
 
-        while (p != nullptr) {
-            if (p->val < x) {
-                p1->next = p;
+        while (p1 != nullptr && p2 != nullptr) {
+            if (p1->val < p2->val) {
+                current->next = p1;
                 p1 = p1->next;
             } else {
-                p2->next = p;
+                current->next = p2;
                 p2 = p2->next;
             }
-            ListNode *temp = p->next;
-            p->next = nullptr;
-            p = temp;
+            current = current->next;
         }
 
-
-        p1->next = dummy2->next;
-        return dummy1->next;
+        if (p1 != nullptr) {
+            current->next = p1;
+        }
+        if (p2 != nullptr) {
+            current->next = p2;
+        }
+        return dummy.next;
     }
 };
 // @lc code=end
@@ -68,11 +69,15 @@ public:
 
 /*
 // @lcpr case=start
-// [1,4,3,2,5,2]\n3\n
+// [1,2,4]\n[1,3,4]\n
 // @lcpr case=end
 
 // @lcpr case=start
-// [2,1]\n2\n
+// []\n[]\n
+// @lcpr case=end
+
+// @lcpr case=start
+// []\n[0]\n
 // @lcpr case=end
 
  */
