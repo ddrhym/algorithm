@@ -1,6 +1,6 @@
 /*
  * @lc app=leetcode.cn id=704 lang=cpp
- * @lcpr version=30005
+ * @lcpr version=30008
  *
  * [704] 二分查找
  */
@@ -32,7 +32,6 @@ public:
         int right = nums.size() - 1;
         while (left <= right) {
             int mid = left + (right - left) / 2;
-
             if (nums[mid] == target) {
                 return mid;
             } else if (nums[mid] < target) {

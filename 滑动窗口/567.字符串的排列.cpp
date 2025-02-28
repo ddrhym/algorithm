@@ -28,34 +28,37 @@ using namespace std;
 class Solution {
 public:
     bool checkInclusion(string s1, string s2) {
-        std::unordered_map<char, int> need;
         std::unordered_map<char, int> window;
-
+        std::unordered_map<char, int> need;
         for (char c: s1) {
             need[c] += 1;
         }
 
-        int left = 0; 
+        int left = 0;
         int right = 0;
         int valid = 0;
 
-        while (right < s2.length()) {
-            char c = s2[right];
+        while (right < s2.size()) {
+            char next = s2[right];
             right += 1;
-            
-            if (need.find(c) != need.end()) {
-                window[c] += 1;
-                if (window[c] == need[c]) {
+
+            // need需要这个字符串
+            if (need.find(next) != need.end()) {
+                window[next] += 1;
+
+                if (window[next] == need[next]) {
                     valid += 1;
                 }
             }
-
-            while (right - left >= s1.length()) {
+            while (right - left >= s1.size()) {
                 if (valid == need.size()) {
                     return true;
                 }
+
+                // 将要离开滑动窗口的字符
                 char d = s2[left];
                 left += 1;
+
                 if (need.find(d) != need.end()) {
                     if (window[d] == need[d]) {
                         valid -= 1;
@@ -64,7 +67,6 @@ public:
                 }
             }
         }
-
         return false;
     }
 };

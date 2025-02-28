@@ -28,24 +28,23 @@ using namespace std;
 class Solution {
 public:
     vector<int> findAnagrams(string s, string p) {
-        std::unordered_map<char, int> need;
+        vector<int> ans;
         std::unordered_map<char, int> window;
-        std::vector<int> ans;
-
+        std::unordered_map<char, int> need;
         for (char c: p) {
             need[c] += 1;
         }
 
-        int left = 0; 
+        int left = 0;
         int right = 0;
         int valid = 0;
 
         while (right < s.size()) {
-            char c = s[right];
+            char cur = s[right];
             right += 1;
-            if (need.count(c)) {
-                window[c] += 1;
-                if (window[c] == need[c]) {
+            if (need.find(cur) != need.end()) {
+                window[cur] += 1;
+                if (window[cur] == need[cur]) {
                     valid += 1;
                 }
             }
@@ -54,9 +53,11 @@ public:
                 if (valid == need.size()) {
                     ans.push_back(left);
                 }
+
                 char d = s[left];
                 left += 1;
-                if (need.count(d)) {
+
+                if (need.find(d) != need.end()) {
                     if (window[d] == need[d]) {
                         valid -= 1;
                     }
@@ -64,7 +65,6 @@ public:
                 }
             }
         }
-
         return ans;
     }
 };

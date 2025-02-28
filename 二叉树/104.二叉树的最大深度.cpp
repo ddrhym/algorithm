@@ -1,6 +1,6 @@
 /*
  * @lc app=leetcode.cn id=104 lang=cpp
- * @lcpr version=30005
+ * @lcpr version=30008
  *
  * [104] 二叉树的最大深度
  */
@@ -38,26 +38,28 @@ using namespace std;
  */
 class Solution {
 public:
+    int res = 0;
     int depth = 0;
-    int currentDepth = 0;
 
     int maxDepth(TreeNode* root) {
         traverse(root);
-        return depth;
+        return res;
     }
 
-    void traverse(TreeNode* root) {
+    void traverse(TreeNode *root) {
         if (root == nullptr) {
-            depth = std::max(depth, currentDepth);
             return;
         }
 
-        currentDepth += 1;
+        depth += 1;
+        if (root->left == nullptr && root->right == nullptr) {
+            res = std::max(res, depth);
+        }
 
         traverse(root->left);
         traverse(root->right);
 
-        currentDepth -= 1;
+        depth -= 1;
     }
 };
 // @lc code=end

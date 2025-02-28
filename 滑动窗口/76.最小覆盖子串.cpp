@@ -28,49 +28,61 @@ using namespace std;
 class Solution {
 public:
     string minWindow(string s, string t) {
-        // 实际需要进行匹配的子串
-        std::unordered_map<char, int> need;
-        // 移动窗口中有的元素和其对应数量
+        // 滑动窗口
         std::unordered_map<char, int> window;
+        // 真实需要的字符和其对应的出现次数
+        std::unordered_map<char, int> need;
 
-        // 将需要匹配的子串放入need中进行统计
+        // 统计需要的字符和其对应的出现次数
         for (char c: t) {
             need[c] += 1;
         }
 
-        int left = 0, right = 0;
-        int valid = 0;  // 记录window中的字符满足need条件的字符个数
-        int start = 0, len = INT_MAX;   // 记录最小覆盖子串的起始索引和长度
+        int left = 0;
+        int right = 0;
+        
+        // 记录最小覆盖子串的开始索引
+        int start = 0;
 
-        while (right < s.length()) {
-            // 当前需要进入滑动窗口的元素
-            char c = s[right];
+        // 记录最小覆盖子串的长度
+        int len = INT_MAX;
+
+        // 表示已经满足出现次数的所有字符数量
+        int valid = 0;
+
+        while (right < s.size()) {
+            char cur = s[right];
+
+            // 扩大窗口右边界
             right += 1;
 
-            // need中存在该元素
-            if (need.count(c)) {
-                window[c] += 1;
-                if (window[c] == need[c]) {
+            // need需要这个字符
+            if (need.find(cur) != need.end()) {
+                window[cur] += 1;
+                // 判断该字符出现的次数是否和need需要的次数相同
+                if (window[cur] == need[cur]) {
                     valid += 1;
                 }
             }
 
-            // 判断窗口左侧是否需要收缩
+            // 窗口开始缩小
             while (valid == need.size()) {
-                // 新窗口如果小于原始窗口, 需要缩小窗口的大小
+                // 更新最小覆盖字串的开始和长度信息
                 if (right - left < len) {
                     start = left;
                     len = right - left;
                 }
 
-                // 即将离开窗口的元素
-                char d = s[left];
+                // 将要移除的字符
+                char left_char = s[left];
                 left += 1;
-                if (need.count(d)) {
-                    if (window[d] == need[d]) {
+                
+                // 将要移除的元素是need需要的元素
+                if (need.find(left_char) != need.end()) {
+                    window[left_char] -= 1;
+                    if (window[left_char] < need[left_char]) {
                         valid -= 1;
                     }
-                    window[d] -= 1;
                 }
             }
         }

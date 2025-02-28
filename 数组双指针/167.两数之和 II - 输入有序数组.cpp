@@ -28,21 +28,22 @@ using namespace std;
 class Solution {
 public:
     vector<int> twoSum(vector<int>& numbers, int target) {
-        std::vector<int> ans;
-        int start = 0; 
-        int end = numbers.size() - 1;
-        while (start != end) {
-            if (numbers[start] + numbers[end] == target) {
-                ans.push_back(start + 1);
-                ans.push_back(end + 1);
-                return ans;
-            } else if (numbers[start] + numbers[end] < target) {
-                start = start + 1;
+        int left = 0;
+        int right = numbers.size() - 1;
+        vector<int>res;
+
+        while (left != right) {
+            if (numbers[left] + numbers[right] < target) {
+                left += 1;
+            } else if (numbers[left] + numbers[right] > target) {
+                right -= 1;
             } else {
-                end = end - 1;
+                res.push_back(left + 1);
+                res.push_back(right + 1);
+                return res;
             }
         }
-        return ans;
+        return res;
     }
 };
 // @lc code=end

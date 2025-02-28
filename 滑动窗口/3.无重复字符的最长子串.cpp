@@ -28,15 +28,14 @@ using namespace std;
 class Solution {
 public:
     int lengthOfLongestSubstring(string s) {
+        int left = 0;
+        int right = 0;
         std::unordered_map<char, int> window;
-        int left = 0, right = 0;
-        int res = 0;
 
-        while (right < s.length()) {
+        int res = 0;
+        while (right < s.size()) {
             char c = s[right];
             right += 1;
-
-            // 窗口内数据更新
             window[c] += 1;
 
             while (window[c] > 1) {
@@ -45,7 +44,7 @@ public:
                 window[d] -= 1;
             }
 
-            res = max(res, right - left);
+            res = std::max(res, right - left);
         }
         return res;
     }
