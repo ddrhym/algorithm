@@ -38,7 +38,31 @@ using namespace std;
 class Solution {
 public:
     ListNode* deleteDuplicates(ListNode* head) {
-        
+        ListNode dummy(-1);
+        ListNode *slow = &dummy;
+        ListNode *fast = head;
+
+        while (fast != nullptr) {
+            // 存在一段重复元素
+            if (fast->next != nullptr && fast->val == fast->next->val) {
+                // 跳过这段重复元素
+                while (fast->next != nullptr && fast->val == fast->next->val) {
+                    fast = fast->next;
+                }
+                fast = fast->next;
+
+                if (fast == nullptr) {
+                    slow->next = nullptr;
+                }
+            } else {
+                slow->next = fast;
+                fast = fast->next;
+                slow = slow->next;
+            }
+            
+        }
+
+        return dummy.next;
     }
 };
 // @lc code=end
