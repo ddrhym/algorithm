@@ -1,29 +1,12 @@
 /*
  * @lc app=leetcode.cn id=26 lang=cpp
- * @lcpr version=30008
+ * @lcpr version=30100
  *
  * [26] 删除有序数组中的重复项
  */
-
-
-// @lcpr-template-start
-using namespace std;
-#include <algorithm>
-#include <array>
-#include <bitset>
-#include <climits>
-#include <deque>
-#include <functional>
-#include <iostream>
-#include <list>
-#include <queue>
-#include <stack>
-#include <tuple>
-#include <unordered_map>
-#include <unordered_set>
-#include <utility>
 #include <vector>
-// @lcpr-template-end
+using std::vector;
+
 // @lc code=start
 class Solution {
 public:

@@ -30,20 +30,16 @@ public:
     vector<int> twoSum(vector<int>& numbers, int target) {
         int left = 0;
         int right = numbers.size() - 1;
-        vector<int>res;
-
         while (left != right) {
             if (numbers[left] + numbers[right] < target) {
-                left += 1;
+                left = left + 1;
             } else if (numbers[left] + numbers[right] > target) {
-                right -= 1;
+                right = right - 1;
             } else {
-                res.push_back(left + 1);
-                res.push_back(right + 1);
-                return res;
+                return {left + 1, right + 1};
             }
         }
-        return res;
+        return {};
     }
 };
 // @lc code=end

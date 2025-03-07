@@ -28,17 +28,14 @@ using namespace std;
 class Solution {
 public:
     void reverseString(vector<char>& s) {
-        if (s.size() == 0) return;
-
-        int begin = 0;
-        int end = s.size() - 1;
-
-        while (begin < end) {
-            char tmp = s[begin];
-            s[begin] = s[end];
-            s[end] = tmp;
-            begin += 1;
-            end -= 1;
+        int left = 0;
+        int right = s.size() - 1;
+        while (left < right) {
+            char tmp = s[left];
+            s[left] = s[right];
+            s[right] = tmp;
+            left += 1;
+            right -= 1;
         }
     }
 };
