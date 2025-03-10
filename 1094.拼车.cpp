@@ -1,8 +1,8 @@
 /*
- * @lc app=leetcode.cn id=1109 lang=cpp
+ * @lc app=leetcode.cn id=1094 lang=cpp
  * @lcpr version=30100
  *
- * [1109] 航班预订统计
+ * [1094] 拼车
  */
 
 #include <vector>
@@ -21,31 +21,39 @@ using std::string;
 // @lc code=start
 class Solution {
 public:
-    vector<int> corpFlightBookings(vector<vector<int>>& bookings, int n) {
-        vector<int> nums(n, 0);
+    bool carPooling(vector<vector<int>>& trips, int capacity) {
+        // 最多有1000个车站
+        vector<int> nums(1001, 0);
         Difference df(nums);
-        for (const auto& booking: bookings) {
-            int i = booking[0] - 1;
-            int j = booking[1] - 1;
-            int val = booking[2];
+        for (const auto& trip: trips) {
+            // 乘客数量
+            int val = trip[0];
+            int i = trip[1];
+            int j = trip[2] - 1;
             df.increment(i, j, val);
         }
-        return df.result();
+
+        vector<int> res = df.result();
+        for (int i = 0; i < res.size(); i++) {
+            if (capacity < res[i]) {
+                return false;
+            }
+        }
+        return true;
     }
+
 private:
     class Difference {
         vector<int> diff;
         public:
-            Difference(const vector<int>& nums) {
+            Difference(vector<int>& nums) {
                 diff.resize(nums.size());
-                // 构造差分数组
                 diff[0] = nums[0];
                 for (int i = 1; i < nums.size(); i++) {
                     diff[i] = nums[i] - nums[i - 1];
                 }
             }
 
-            // 给区间[i, j]增加val
             void increment(int i, int j, int val) {
                 diff[i] += val;
                 if (j + 1 < diff.size()) {
@@ -55,7 +63,6 @@ private:
 
             vector<int> result() {
                 vector<int> res(diff.size());
-                // 根据差分数组结果构造结果数组
                 res[0] = diff[0];
                 for (int i = 1; i < diff.size(); i++) {
                     res[i] = res[i - 1] + diff[i];
@@ -70,11 +77,11 @@ private:
 
 /*
 // @lcpr case=start
-// [[1,2,10],[2,3,20],[2,5,25]]\n5\n
+// [[2,1,5],[3,3,7]]\n4\n
 // @lcpr case=end
 
 // @lcpr case=start
-// [[1,2,10],[2,2,15]]\n2\n
+// [[2,1,5],[3,3,7]]\n5\n
 // @lcpr case=end
 
  */
